@@ -749,6 +749,21 @@ export function initGame() {
     }
   });
   
+    function updatePeople(delta) {
+    villagers.forEach(person => {
+      person.userData.phase += delta;
+      person.rotation.y = Math.sin(person.userData.phase * 0.5) * 0.18;
+      person.position.x =
+        person.userData.baseX +
+        Math.sin(person.userData.phase * 0.3) * 0.3;
+    });
+
+    animals.forEach(animal => {
+      animal.userData.phase += delta;
+      animal.rotation.y = Math.sin(animal.userData.phase * 0.4) * 0.12;
+    });
+  }
+  
     function updateCamera(delta) {
     const target=driving?car:player;
     const direction=new THREE.Vector3(

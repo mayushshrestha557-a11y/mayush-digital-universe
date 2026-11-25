@@ -514,14 +514,19 @@ export function initGame() {
     clock.getDelta();
   }
 
-  $("gtaStart").addEventListener("click",()=>{
+  
+      
+    
+     $("gtaStart").addEventListener("click",()=>{
     if(storyIndex<story.length-1){
       storyIndex++;
       showStory();
     }else{
       startGame();
     }
-  });  function updateLocation() {
+  });
+  
+  function updateLocation() {
     const progress=Math.min(1,Math.abs(player.position.z)/worldLength);
     const index=Math.min(villages.length-1,Math.floor(progress*(villages.length-1)));
     $("gtaLocation").textContent=villages[index];

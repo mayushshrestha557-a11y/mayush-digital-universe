@@ -739,15 +739,130 @@ export function initGame() {
     }
   }
 
-  function updatePeople(delta) {
-    villagers.forEach(person=>{
-      person.userData.phase+=delta;
-      person.rotation.y=Math.sin(person.userData.phase*.5)*.18;
-      person.position.x=person.userData.baseX+Math.sin(person.userData.phase*.3)*.3;
-    });
-    animals.forEach(animal=>{
-      animal.userData.phase+=delta;
-      animal.rotation.y=Math.sin(animal.userData.phase*.4)*.12;
-    });
+    $("gtaStart").addEventListener("click",()=>{
+    if(storyIndex<story.length-1){
+      storyIndex++;
+      showStory();
+    }else{
+      storyIndex=story.length;
+      startGame();
+    }
+  });
+  
+    function updateCamera(delta) {
+    const target=driving?car:player;
+    const direction=new THREE.Vector3(
+      Math.sin(target.rotation.y),0,
+      Math.cos(target.rotation.y)
+    );
+
+    const desired=new THREE.Vector3(
+      target.position.x-direction.x*8,
+      target.position.y+5.2,
+      target.position.z-direction.z*8
+    );
+
+    camera.position.lerp(desired,Math.min(1,delta*4));
+
+    camera.lookAt(
+      target.position.x,
+      target.position.y+1.4,
+      target.position.z
+    );
   }
+
+  function resize() {
+    if(!renderer || disposed) return;
+
+    const width=screen.clientWidth;
+    const height=screen.clientHeight;
+
+    if(!width || !height) return;
+
+    camera.aspect=width/height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width,height,false);
+  }
+
+  function animate() {
+    if(disposed) return;
+
+    frame=requestAnimationFrame(animate);
+
+    const delta=Math.min(clock.getDelta(),.05);
+
+    updatePlayer(delta);
+    updatePeople(delta);
+    updateCamera(delta);
+    updateLocation();
+
+    renderer.render(scene,camera);
+  }
+
+  try {
+    createWorld();
+    resize();
+
+    if("ResizeObserver" in window){
+      resizeObserver=new ResizeObserver(resize);
+      resizeObserver.observe(screen);
+    }else{
+      window.addEventListener("resize",resize);
+    }
+
+    animate();
+
+  }catch(error){
+    console.error("MAYUSH GAME ERROR:",error);
+    $("gtaMessage").textContent="3D गेम सुरु हुन सकेन। पेज Reload गरेर फेरि प्रयास गर।";
+    overlay.hidden=false;
+  }
+
+  window.__gtaCleanup=function(){
+    disposed=true;
+
+    cancelAnimationFrame(frame);
+
+    if(resizeObserver) resizeObserver.disconnect();
+
+    window.removeEventListener("resize",resize);
+    window.removeEventListener("keydown",keyDown);
+    window.removeEventListener("keyup",keyUp);
+
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+    }
+
+    if(audioCtx){
+      try{audioCtx.close();}catch(e){}
+    }
+
+    if(renderer){
+      renderer.dispose();
+      renderer.domElement.remove();
+    }
+
+    if(scene){
+      scene.traverse(object=>{
+        if(object.geometry) object.geometry.dispose();
+
+        if(object.material){
+          const list=Array.isArray(object.material)
+            ? object.material
+            : [object.material];
+
+          list.forEach(material=>{
+            Object.values(material).forEach(value=>{
+              if(value && value.isTexture) value.dispose();
+            });
+
+            material.dispose();
+          });
+        }
+      });
+    }
+
+    window.__gtaCleanup=null;
+  };
+}
 

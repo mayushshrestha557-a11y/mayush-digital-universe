@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05080d">
+  <meta name="description" content="Mayush Shrestha — personal 3D digital universe, creative developer and technology enthusiast from Chitwan, Nepal.">
+  <title>Mayush Shrestha | Digital Universe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script>
+    (function () {
+      function showError(message) {
+        var panel = document.getElementById('runtimeError');
+        if (!panel) {
+          panel = document.createElement('div');
+          panel.id = 'runtimeError';
+          panel.setAttribute('role', 'alert');
+          panel.style.cssText = 'position:fixed;z-index:99999;left:12px;right:12px;bottom:12px;padding:14px;background:#350d16;color:#fff;border:1px solid #ff7185;border-radius:10px;font:13px/1.5 sans-serif;white-space:pre-wrap;max-height:35vh;overflow:auto;';
+          document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(panel); });
+          if (document.body) document.body.appendChild(panel);
+        }
+        panel.textContent = '3D STARTUP ERROR: ' + String(message);
+      }
+      window.addEventListener('error', function (event) {
+        showError(event.message || (event.error && event.error.message) || 'Unknown JavaScript error');
+      });
+      window.addEventListener('unhandledrejection', function (event) {
+        showError(event.reason && event.reason.message ? event.reason.message : event.reason || 'Module/CDN loading failed');
+      });
+    })();
+  </script>
+</head>
+<body class="night">
+  <div class="ambient-grid"></div>
+  <div class="scanlines"></div>
+  <div id="audioHint" class="audio-hint">TOUCH ANYWHERE TO ENABLE SOUND</div>
+
+  <section id="intro" class="intro-screen">
+    <div class="intro-top"><span>NEPAL / CHITWAN</span><span>PERSONAL DIGITAL UNIVERSE · 2026</span></div>
+    <canvas id="introCanvas" aria-label="Animated 3D leopard and Mayush logo"></canvas>
+    <div class="intro-copy">
+      <p class="eyebrow">A NEW WORLD IS LOADING</p>
+      <h1 class="intro-name">MAYUSH<span>.</span></h1>
+      <p class="intro-sub">SHRESTHA · DIGITAL EXPLORER</p>
+      <div class="loading-track"><span id="loadingBar"></span></div>
+      <button id="enterWorld" class="enter-button">ENTER MY WORLD <b>↗</b></button>
+    </div>
+    <div class="intro-bottom"><span>CURIOUS MIND · CREATIVE SOUL</span><span>01 — 04</span></div>
+  </section>
+
+  <div id="universe" class="universe hidden">
+    <header class="topbar">
+      <a class="brand" href="#" id="homeBrand">M<span>.</span><small>UNIVERSE</small></a>
+      <div class="top-actions">
+        <label class="language-wrap"><span>LANG</span>
+          <select id="languageSelect" aria-label="Select language">
+            <option value="en">EN</option><option value="ne">नेपाली</option><option value="hi">हिन्दी</option><option value="ja">日本語</option>
+          </select>
+        </label>
+        <button id="themeToggle" class="icon-button" aria-label="Toggle day and night">☼</button>
+        <button id="soundToggle" class="icon-button" aria-label="Toggle sound">♫</button>
+        <button id="menuToggle" class="menu-button" aria-label="Open menu"><i></i><i></i></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="world-hero">
+        <canvas id="worldCanvas" aria-label="Interactive 3D Kathmandu temple environment"></canvas>
+        <div class="world-vignette"></div>
+        <div class="hero-content">
+          <p class="eyebrow" data-i18n="welcome">WELCOME TO MY DIGITAL WORLD</p>
+          <h2>NOT JUST A<br><span>PORTFOLIO.</span></h2>
+          <p class="hero-lead" data-i18n="heroLead">A curious mind from Chitwan, exploring technology, creativity and the future.</p>
+          <button class="primary-button" data-open="about" data-i18n="explore">EXPLORE MY WORLD <b>↗</b></button>
+          <div class="origin-chip"><span class="pulse-dot"></span> CHITWAN, NEPAL <small>27° 37' N · 84° 27' E</small></div>
+        </div>
+        <div class="temple-caption"><span>01 / HERITAGE</span><b>NEPAL · KATHMANDU INSPIRED</b><small>INTERACTIVE 3D ENVIRONMENT</small></div>
+        <div class="scroll-cue">SCROLL TO DISCOVER <span></span></div>
+      </section>
+
+      <section class="portal-section">
+        <div class="section-intro"><p class="eyebrow" data-i18n="choose">CHOOSE YOUR DESTINATION</p><h2 data-i18n="portals">EXPLORE THE UNIVERSE</h2><p data-i18n="portalDesc">Every portal opens a new chapter of my story.</p></div>
+        <div class="portal-grid">
+          <button class="portal-card" data-open="about"><span class="portal-number">01</span><div class="portal-orb orb-green">M</div><h3 data-i18n="about">ABOUT ME</h3><p data-i18n="aboutShort">My story, roots and mindset</p><b>OPEN PORTAL ↗</b></button>
+          <button class="portal-card" data-open="hobbies"><span class="portal-number">02</span><div class="portal-orb orb-purple">♫</div><h3 data-i18n="hobbies">HOBBIES</h3><p data-i18n="hobbiesShort">Music, guitar and movies</p><b>OPEN PORTAL ↗</b></button>
+          <button class="portal-card" data-open="skills"><span class="portal-number">03</span><div class="portal-orb orb-blue">&lt;/&gt;</div><h3 data-i18n="skills">SKILLS & TECH</h3><p data-i18n="skillsShort">What I learn and build</p><b>OPEN PORTAL ↗</b></button>
+          <button class="portal-card" data-open="gallery"><span class="portal-number">04</span><div class="portal-orb orb-gold">▧</div><h3 data-i18n="gallery">PHOTO GALLERY</h3><p data-i18n="galleryShort">Moments from my journey</p><b>OPEN PORTAL ↗</b></button>
+          <button class="portal-card" data-open="journey"><span class="portal-number">05</span><div class="portal-orb orb-red">⌖</div><h3 data-i18n="journey">MY JOURNEY</h3><p data-i18n="journeyShort">From Nayabasti to the world</p><b>OPEN PORTAL ↗</b></button>
+          <button class="portal-card" data-open="game"><span class="portal-number">06</span><div class="portal-orb orb-pink">▶</div><h3 data-i18n="game">VILLAGE GAME</h3><p data-i18n="gameShort">Explore the places I know</p><b>PLAY GAME ↗</b></button>
+          <button class="portal-card" data-open="techstack"><span class="portal-number">07</span><div class="portal-orb orb-cyan">◇</div><h3 data-i18n="techstack">TECH STACK</h3><p data-i18n="techShort">Inside this digital universe</p><b>OPEN PORTAL ↗</b></button>
+          <button class="portal-card" data-open="contact"><span class="portal-number">08</span><div class="portal-orb orb-white">@</div><h3 data-i18n="contact">CONTACT</h3><p data-i18n="contactShort">Let's connect and create</p><b>OPEN PORTAL ↗</b></button>
+        </div>
+      </section>
+
+      <section class="quote-band"><span>“</span><p data-i18n="quote">Stay curious. Learn fearlessly. Build beyond limits.</p><span>”</span></section>
+    </main>
+    <footer class="footer"><a class="brand" href="#">M<span>.</span></a><p>DESIGNED AS A DIGITAL UNIVERSE · MAYUSH SHRESTHA</p><span>NEPAL TO THE WORLD ↗</span></footer>
+  </div>
+
+  <div id="pageLayer" class="page-layer" aria-hidden="true">
+    <div class="page-toolbar"><button id="backHome" class="back-button">← <span data-i18n="back">BACK TO UNIVERSE</span></button><span class="page-index">M / EXPLORER</span><button id="closePage" class="close-button" aria-label="Close page">×</button></div>
+    <div id="pageContent" class="page-content"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

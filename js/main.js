@@ -10,7 +10,20 @@ function tone(freq=440,duration=.12,type="sine",volume=.035){if(!soundOn)return;
 function chime(){tone(392,.18);setTimeout(()=>tone(587,.2),130);setTimeout(()=>tone(784,.35),260);}
 const stopIntro=createIntro($("#introCanvas"));
 let progress=0;const bar=$("#loadingBar");const timer=setInterval(()=>{progress=Math.min(100,progress+Math.random()*8+2);bar.style.width=progress+"%";if(progress>=100)clearInterval(timer);},180);
-function enter(){tone(220,.15,"triangle");setTimeout(chime,150);intro.classList.add("exit");setTimeout(()=>{intro.classList.add("hidden");universe.classList.remove("hidden");worldCleanup=createWorld($("#worldCanvas"));},850);$("#audioHint").classList.add("off");}
+function enter(){
+  tone(220,.15,"triangle");
+  setTimeout(chime,150);
+  intro.classList.add("exit");
+
+  setTimeout(()=>{
+    stopIntro?.();
+    intro.classList.add("hidden");
+    universe.classList.remove("hidden");
+    worldCleanup=createWorld($("#worldCanvas"));
+  },850);
+
+  $("#audioHint").classList.add("off");
+}
 $("#enterWorld").addEventListener("click",enter);intro.addEventListener("pointerdown",()=>{if(audioCtx===null){tone(660,.08);$("#audioHint").classList.add("off");}});
 function closePage(){layer.classList.remove("open");layer.setAttribute("aria-hidden","true");tone(330,.1);setTimeout(()=>content.innerHTML="",500);}
 function showPage(id){openPage(id,content);layer.classList.add("open");layer.setAttribute("aria-hidden","false");tone(520,.09,"triangle");}
